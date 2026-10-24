@@ -1,4 +1,4 @@
-# account-diagnose-runner
+# account-diagnose-runner · 账号诊断器
 
 **Link in, HTML scorecard out — for Xiaohongshu (RED) and Douyin accounts.**
 
