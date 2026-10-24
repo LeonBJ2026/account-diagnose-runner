@@ -1,0 +1,123 @@
+{
+  "platform": "xhs",
+  "url": "https://www.xiaohongshu.com/user/profile/example000000000000",
+  "captured_at": "2026-10-24",
+  "note": "FICTIONAL sample account. Every field is invented to demonstrate the schema; no real person or account data is included.",
+  "profile": {
+    "nickname": "北京陪拍·南枝",
+    "xiaohongshu_id": "nanzhi_photo",
+    "ip_location": "北京",
+    "bio_lines": [
+      "北京陪拍｜天坛·地坛·胡同机位",
+      "全画幅 + CCD，当天出 9 张精修",
+      "199 元起，学生党友好",
+      "约拍看置顶"
+    ],
+    "tags": [
+      "北京陪拍",
+      "人像摄影",
+      "胡同机位"
+    ],
+    "following": 86,
+    "followers": 1284,
+    "likes_collects": 9632
+  },
+  "notes": [
+    {
+      "title": "北京天坛陪拍｜3 个机位拍出故宫感",
+      "pinned": true,
+      "likes": 486,
+      "cover_text": "天坛 3 机位"
+    },
+    {
+      "title": "地坛银杏只剩 7 天，附机位",
+      "pinned": false,
+      "likes": 312
+    },
+    {
+      "title": "北京胡同陪拍｜南锣 5 个出片点",
+      "pinned": false,
+      "likes": 258
+    },
+    {
+      "title": "天坛怎么拍不撞人？机位攻略",
+      "pinned": false,
+      "likes": 190
+    },
+    {
+      "title": "客人说像杂志封面｜国贸夜拍",
+      "pinned": false,
+      "likes": 143
+    },
+    {
+      "title": "北京陪拍报价与流程，一次说清",
+      "pinned": false,
+      "likes": 121
+    },
+    {
+      "title": "戒台寺骑行跟拍｜公路车",
+      "pinned": false,
+      "likes": 96
+    },
+    {
+      "title": "颐和园昆明湖日落机位",
+      "pinned": false,
+      "likes": 88
+    },
+    {
+      "title": "五道营胡同 10 分钟出片路线",
+      "pinned": false,
+      "likes": 74
+    },
+    {
+      "title": "陪拍踩雷复盘：这 3 个点别去",
+      "pinned": false,
+      "likes": 65
+    }
+  ],
+  "backend": {
+    "impressions": 8600,
+    "click_rate": 11.2,
+    "interaction_rate": 5.8,
+    "follow_rate": 1.4,
+    "baseline": {
+      "impressions": 7200,
+      "click_rate": 9.5,
+      "interaction_rate": 4.6,
+      "follow_rate": 1.1
+    },
+    "baseline_method": "Median of the previous 10 posts. Replace with your own figures; if unavailable, keep the key null so the item is reported as unmeasured rather than zero."
+  },
+  "manual": {
+    "2": 3,
+    "4": 3,
+    "6": 6,
+    "7": 3,
+    "10": 2,
+    "11": 2,
+    "13": 4,
+    "14": 3,
+    "15": 2,
+    "21": 4,
+    "22": 3,
+    "23": 2,
+    "24": 0,
+    "8": 3
+  },
+  "manual_notes": {
+    "2": "Avatar: real photo holding a camera, face clear, matches positioning → full 3",
+    "4": "Grid: consistent tone and framing, but two commercial posts break the visual rhythm → 3/4",
+    "6": "Cover: large readable text, subject centred, works at thumbnail size → full 6",
+    "7": "Opening hook: 8 of 10 open with a location + action, 2 open with a self-introduction → 3/5",
+    "10": "Closing CTA: 6 of 10 point to a pinned post, 4 end flat → 2/3",
+    "11": "Shareable artifact: 4 posts carry a usable location list or price table → 2/3",
+    "13": "Cadence: 3–4 posts per week for 8 consecutive weeks → full 4",
+    "14": "Time slots: evenings 19–22 dominate, with two random morning posts → 3/3",
+    "15": "Series: three recurring series exist, but titles are not numbered → 2/3",
+    "21": "Comment handling: replies within 60 minutes on weekdays, one pinned guiding comment → 4/4",
+    "22": "Enquiry path: DMs answered within 3 hours, no off-platform contact pushed → 3/3",
+    "23": "One-sentence difference: 'same-day delivery' is stated but not demonstrated in content → 2/4",
+    "24": "Peer overlap: structure and subjects overlap three benchmark accounts by more than 50% → 0/2",
+    "8": "Value type: 7 of 10 deliver a usable method (location list, price, route); 3 are pure showcase → 3/4"
+  }
+}

@@ -1,0 +1,345 @@
+{
+  "platform": "xhs",
+  "account": "北京陪拍·南枝",
+  "url": "https://www.xiaohongshu.com/user/profile/example000000000000",
+  "captured_at": "2026-10-24",
+  "items": [
+    {
+      "id": "1",
+      "module": "M1",
+      "name": "昵称含搜索词",
+      "full": 4,
+      "score": 4.0,
+      "measured_full": 4,
+      "status": "measured",
+      "reason": "昵称同时含地域词与品类词"
+    },
+    {
+      "id": "2",
+      "module": "M1",
+      "name": "头像可信",
+      "full": 3,
+      "score": 3.0,
+      "measured_full": 3,
+      "status": "measured",
+      "reason": "人工判分"
+    },
+    {
+      "id": "3",
+      "module": "M1",
+      "name": "简介四要素",
+      "full": 5,
+      "score": 5.0,
+      "measured_full": 5,
+      "status": "measured",
+      "reason": "四要素齐全"
+    },
+    {
+      "id": "4",
+      "module": "M1",
+      "name": "主页九宫格统一",
+      "full": 4,
+      "score": 3.0,
+      "measured_full": 4,
+      "status": "measured",
+      "reason": "人工判分"
+    },
+    {
+      "id": "5",
+      "module": "M2",
+      "name": "标题前 8 字",
+      "full": 6,
+      "score": 4.0,
+      "measured_full": 6,
+      "status": "measured",
+      "reason": "4/10 条前 8 字同时含地域与动作（达标率 40%）"
+    },
+    {
+      "id": "6",
+      "module": "M2",
+      "name": "封面可读性",
+      "full": 6,
+      "score": 6.0,
+      "measured_full": 6,
+      "status": "measured",
+      "reason": "人工判分"
+    },
+    {
+      "id": "7",
+      "module": "M2",
+      "name": "开头钩子",
+      "full": 5,
+      "score": 3.0,
+      "measured_full": 5,
+      "status": "measured",
+      "reason": "人工判分"
+    },
+    {
+      "id": "8",
+      "module": "M2",
+      "name": "价值类型",
+      "full": 4,
+      "score": 3.0,
+      "measured_full": 4,
+      "status": "measured",
+      "reason": "人工判分"
+    },
+    {
+      "id": "9",
+      "module": "M2",
+      "name": "关键词三层",
+      "full": 3,
+      "score": 2.0,
+      "measured_full": 2,
+      "status": "measured",
+      "reason": "核心词 1.0/1（达标率 50%）+ 地点词 1/1；意图词需正文，缺测"
+    },
+    {
+      "id": "10",
+      "module": "M2",
+      "name": "结尾动作",
+      "full": 3,
+      "score": 2.0,
+      "measured_full": 3,
+      "status": "measured",
+      "reason": "人工判分"
+    },
+    {
+      "id": "11",
+      "module": "M2",
+      "name": "可转发实体物",
+      "full": 3,
+      "score": 2.0,
+      "measured_full": 3,
+      "status": "measured",
+      "reason": "人工判分"
+    },
+    {
+      "id": "12",
+      "module": "M3",
+      "name": "选题分布",
+      "full": 4,
+      "score": 2.0,
+      "measured_full": 4,
+      "status": "measured",
+      "reason": "客片类 9 / 攻略类 1 / 热点类 0（共 10 条，最大支柱 90%）"
+    },
+    {
+      "id": "13",
+      "module": "M3",
+      "name": "更新节奏",
+      "full": 4,
+      "score": 4.0,
+      "measured_full": 4,
+      "status": "measured",
+      "reason": "人工判分"
+    },
+    {
+      "id": "14",
+      "module": "M3",
+      "name": "发布时间分布",
+      "full": 3,
+      "score": 3.0,
+      "measured_full": 3,
+      "status": "measured",
+      "reason": "人工判分"
+    },
+    {
+      "id": "15",
+      "module": "M3",
+      "name": "栏目化与同质化",
+      "full": 3,
+      "score": 2.0,
+      "measured_full": 3,
+      "status": "measured",
+      "reason": "人工判分"
+    },
+    {
+      "id": "16",
+      "module": "M4",
+      "name": "曝光量级",
+      "full": 5,
+      "score": 5,
+      "measured_full": 5,
+      "status": "measured",
+      "reason": "impressions 实测 8600 / 基线 7200（119%）"
+    },
+    {
+      "id": "17",
+      "module": "M4",
+      "name": "点击率",
+      "full": 7,
+      "score": 7,
+      "measured_full": 7,
+      "status": "measured",
+      "reason": "click_rate 实测 11.2 / 基线 9.5（118%）"
+    },
+    {
+      "id": "18",
+      "module": "M4",
+      "name": "互动率",
+      "full": 6,
+      "score": 6,
+      "measured_full": 6,
+      "status": "measured",
+      "reason": "interaction_rate 实测 5.8 / 基线 4.6（126%）"
+    },
+    {
+      "id": "19",
+      "module": "M4",
+      "name": "涨粉率",
+      "full": 4,
+      "score": 4,
+      "measured_full": 4,
+      "status": "measured",
+      "reason": "follow_rate 实测 1.4 / 基线 1.1（127%）"
+    },
+    {
+      "id": "20",
+      "module": "M5",
+      "name": "主页承接",
+      "full": 5,
+      "score": 5,
+      "measured_full": 5,
+      "status": "measured",
+      "reason": "有站内下一步且有价格/流程"
+    },
+    {
+      "id": "21",
+      "module": "M5",
+      "name": "评论承接",
+      "full": 4,
+      "score": 4.0,
+      "measured_full": 4,
+      "status": "measured",
+      "reason": "人工判分"
+    },
+    {
+      "id": "22",
+      "module": "M5",
+      "name": "咨询链路",
+      "full": 3,
+      "score": 3.0,
+      "measured_full": 3,
+      "status": "measured",
+      "reason": "人工判分"
+    },
+    {
+      "id": "23",
+      "module": "M6",
+      "name": "一句话差异点",
+      "full": 4,
+      "score": 2.0,
+      "measured_full": 4,
+      "status": "measured",
+      "reason": "人工判分"
+    },
+    {
+      "id": "24",
+      "module": "M6",
+      "name": "对标同质度",
+      "full": 2,
+      "score": 0.0,
+      "measured_full": 2,
+      "status": "measured",
+      "reason": "人工判分"
+    }
+  ],
+  "modules": {
+    "M1": {
+      "score": 15.0,
+      "full": 16,
+      "measurable_full": 16,
+      "missing_full": 0,
+      "rate": 0.9375,
+      "measured_items": 4,
+      "total_items": 4
+    },
+    "M2": {
+      "score": 22.0,
+      "full": 30,
+      "measurable_full": 29,
+      "missing_full": 1,
+      "rate": 0.7586,
+      "measured_items": 7,
+      "total_items": 7
+    },
+    "M3": {
+      "score": 11.0,
+      "full": 14,
+      "measurable_full": 14,
+      "missing_full": 0,
+      "rate": 0.7857,
+      "measured_items": 4,
+      "total_items": 4
+    },
+    "M4": {
+      "score": 22,
+      "full": 22,
+      "measurable_full": 22,
+      "missing_full": 0,
+      "rate": 1.0,
+      "measured_items": 4,
+      "total_items": 4
+    },
+    "M5": {
+      "score": 12.0,
+      "full": 12,
+      "measurable_full": 12,
+      "missing_full": 0,
+      "rate": 1.0,
+      "measured_items": 3,
+      "total_items": 3
+    },
+    "M6": {
+      "score": 2.0,
+      "full": 6,
+      "measurable_full": 6,
+      "missing_full": 0,
+      "rate": 0.3333,
+      "measured_items": 2,
+      "total_items": 2
+    }
+  },
+  "total": {
+    "score": 84.0,
+    "measurable_full": 99,
+    "missing": 1,
+    "converted": 84.8
+  },
+  "main_issue": {
+    "main": {
+      "module": "M6",
+      "rate": 0.3333,
+      "candidates": [
+        {
+          "module": "M6",
+          "rate": 0.3333
+        },
+        {
+          "module": "M2",
+          "rate": 0.7586
+        },
+        {
+          "module": "M3",
+          "rate": 0.7857
+        },
+        {
+          "module": "M1",
+          "rate": 0.9375
+        },
+        {
+          "module": "M4",
+          "rate": 1.0
+        },
+        {
+          "module": "M5",
+          "rate": 1.0
+        }
+      ]
+    },
+    "excluded": [],
+    "fallback": null
+  },
+  "grade": "A"
+}

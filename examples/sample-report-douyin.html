@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>账号诊断报告 · 详细版样例（抖音）</title>
+<style>
+  :root{
+    --red:#C41230; --gold:#CAAA74; --ink:#2B2B2B; --muted:#7A7570;
+    --line:#E4DED5; --bg:#FAF8F5; --card:#FFFFFF; --warn:#B8860B;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:"PingFang SC","思源黑体","Microsoft YaHei",sans-serif;
+    background:var(--bg); color:var(--ink); line-height:1.7;
+    -webkit-print-color-adjust:exact; print-color-adjust:exact;
+  }
+  .page{width:1120px;margin:0 auto;padding:0 0 60px}
+
+  .demo-bar{
+    background:var(--warn); color:#fff; text-align:center;
+    font-size:13px; letter-spacing:.5px; padding:7px 0; font-weight:600;
+  }
+
+  header{
+    background:var(--card); border-bottom:3px solid var(--red);
+    padding:34px 48px 26px; display:flex; justify-content:space-between; align-items:flex-end;
+  }
+  .brand{font-size:13px; letter-spacing:3px; color:var(--gold); font-weight:700; margin-bottom:10px}
+  h1{font-size:32px; letter-spacing:-.5px; font-weight:700}
+  h1 span{color:var(--red)}
+  .meta{text-align:right; font-size:13px; color:var(--muted); line-height:2}
+  .meta b{color:var(--ink); font-weight:600}
+
+  .block{background:var(--card); padding:32px 48px; border-bottom:1px solid var(--line)}
+  .block h2{
+    font-size:15px; letter-spacing:2px; color:var(--red); font-weight:700;
+    margin-bottom:20px; padding-left:12px; border-left:3px solid var(--gold);
+  }
+  .block h2 .hint{font-size:12px; letter-spacing:0; color:var(--muted); font-weight:400; margin-left:8px}
+
+  .verdict{background:var(--red); color:#fff; padding:44px 48px}
+  .verdict .tag{font-size:13px; letter-spacing:4px; opacity:.8; margin-bottom:14px}
+  .verdict p{font-size:29px; font-weight:700; line-height:1.5; letter-spacing:-.3px}
+  .verdict p em{font-style:normal; color:#F5DEB0; border-bottom:3px solid #F5DEB0; padding-bottom:2px}
+  .verdict .sub{font-size:14px; margin-top:16px; opacity:.85; font-weight:400; line-height:1.8}
+
+  .total{display:flex; align-items:center; gap:40px; margin-bottom:26px}
+  .total .num{font-size:64px; font-weight:800; color:var(--red); line-height:1}
+  .total .num small{font-size:20px; color:var(--muted); font-weight:600}
+  .total .grade{background:var(--red); color:#fff; font-size:26px; font-weight:800; padding:6px 22px; border-radius:4px}
+  .total .desc{font-size:14px; color:var(--muted); flex:1}
+  table{width:100%; border-collapse:collapse; font-size:14px}
+  th{background:#F3EFE8; text-align:left; padding:11px 14px; font-weight:600; color:#5C554C; border-bottom:2px solid var(--line)}
+  td{padding:11px 14px; border-bottom:1px solid var(--line)}
+  .bar{height:8px; background:#EDE7DD; border-radius:4px; overflow:hidden; min-width:140px}
+  .bar i{display:block; height:100%; background:var(--gold); border-radius:4px}
+  .bar i.low{background:var(--red)}
+  .flag{color:var(--red); font-weight:700; font-size:12px}
+
+  /* 六模块释义 */
+  .mods{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:26px}
+  .mod{border:1px solid var(--line); background:#FFFDFA; padding:16px 18px}
+  .mod.key{border-left:3px solid var(--red)}
+  .mod .mh{display:flex; align-items:baseline; gap:8px; margin-bottom:9px; flex-wrap:wrap}
+  .mod .mh b{color:var(--red); font-size:15px}
+  .mod .mh .mn{font-size:13px; font-weight:700}
+  .mod .mh .ms{font-size:12px; color:var(--muted); margin-left:auto; font-variant-numeric:tabular-nums}
+  .mod .md{font-size:12.5px; color:#5C554C; line-height:1.75}
+  .mod .md b{color:var(--ink)}
+  .mod .md .ln{margin-bottom:6px}
+  .mod .md .ln:last-child{margin-bottom:0}
+  .mod .md u{text-decoration:none; border-bottom:1px dotted #BFB4A2}
+
+  .two-col{display:grid; grid-template-columns:420px 1fr; gap:48px; align-items:start}
+  .radar-wrap{text-align:center}
+  .radar-wrap .cap{font-size:12px; color:var(--muted); margin-top:8px}
+  .rlg{display:grid; grid-template-columns:repeat(3,1fr); gap:7px 12px; margin-top:14px; font-size:12px; text-align:left}
+  .rlg div{display:flex; align-items:center; gap:6px; color:#5C554C}
+  .rlg .sw{width:8px; height:8px; border-radius:2px; background:var(--red); flex:0 0 8px}
+  .rlg b{color:var(--red); margin-left:auto; font-variant-numeric:tabular-nums}
+
+  .funnel-row{
+    display:grid; grid-template-columns:80px 96px 1fr 96px 82px;
+    align-items:center; gap:14px; padding:13px 0; border-bottom:1px dashed var(--line);
+  }
+  .funnel-row:last-child{border-bottom:none}
+  .funnel-row .layer{font-size:14px; font-weight:600}
+  .funnel-row .val{font-size:20px; font-weight:700; text-align:right; font-variant-numeric:tabular-nums}
+  .funnel-row .track{height:9px; background:#EDE7DD; border-radius:5px; overflow:hidden}
+  .funnel-row .track i{display:block; height:100%; background:var(--gold); border-radius:5px}
+  .funnel-row.break .track i{background:var(--red)}
+  .funnel-row .rate{font-size:13px; color:var(--muted); text-align:right; font-variant-numeric:tabular-nums}
+  .funnel-row .state{font-size:11px; text-align:center; padding:3px 0; border-radius:3px; background:#F1EDE6; color:var(--muted); font-weight:600}
+  .funnel-row.break .state{background:var(--red); color:#fff}
+  .funnel-row .state.ok{background:#EAF3EA; color:#3C7A44}
+
+  /* 问题卡详版 */
+  .issue{
+    border:1px solid var(--line); border-left:4px solid var(--red);
+    padding:22px 26px; margin-bottom:20px; background:#FFFDFA;
+  }
+  .issue h3{font-size:16px; font-weight:700; margin-bottom:6px; line-height:1.5}
+  .issue h3 b{color:var(--red); margin-right:8px}
+  .issue .pri{font-size:11px; color:var(--muted); letter-spacing:1px; margin-bottom:4px}
+  .sec{margin-top:16px; padding-top:15px; border-top:1px dashed var(--line)}
+  .sk{font-size:12px; letter-spacing:2px; color:var(--red); font-weight:700; margin-bottom:9px}
+  .sk .src{font-weight:400; letter-spacing:0; color:var(--muted); font-size:11px; margin-left:8px}
+  .sv{font-size:13.5px; line-height:1.85}
+  .sv .kv{display:grid; grid-template-columns:82px 1fr; gap:10px; margin-bottom:7px}
+  .sv .kv .k2{color:var(--muted); font-size:12px; padding-top:2px}
+  .sv u{text-decoration:none; background:#FBEBEA; padding:1px 5px; border-radius:2px; color:#8B1226; font-weight:600}
+  .steps{margin:6px 0 10px 20px; font-size:13.5px; line-height:1.85}
+  .steps li{margin-bottom:6px}
+  .demo{margin:10px 0 6px; padding:12px 16px; background:#F7F3EC; font-size:13px; line-height:1.85}
+  .demo .lab{font-size:11px; letter-spacing:1px; color:var(--muted); margin-bottom:4px}
+  .demo .bad{color:#8B1226}
+  .demo .good{color:#2F6B3A; font-weight:600}
+  .diff{font-size:12px; color:var(--muted); margin-top:8px; padding-top:8px; border-top:1px dotted var(--line)}
+
+  .foot{background:#F3EFE8; padding:30px 48px; font-size:13px; color:#5C554C; line-height:1.9}
+  .foot h2{font-size:14px; letter-spacing:2px; color:var(--red); margin-bottom:14px}
+  .foot .gap{margin-bottom:22px}
+  .foot ul{list-style:none}
+  .foot li{padding-left:18px; position:relative; margin-bottom:4px}
+  .foot li::before{content:"—"; position:absolute; left:0; color:var(--gold); font-weight:700}
+
+  .note{
+    background:#FBF3E4; border-left:3px solid var(--gold); padding:14px 18px;
+    font-size:13px; color:#6B5B3E; margin-top:20px; line-height:1.8;
+  }
+
+  @media print{
+    body{background:#fff}
+    .page{width:auto}
+    @page{size:A4 landscape; margin:10mm}
+    .block,.verdict,header,.foot,.issue{page-break-inside:avoid}
+    .demo-bar{background:#999}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="demo-bar">样例报告 · 数据均为虚构示例，非真实账号诊断 · 仅用于查看版式与结构</div>
+
+  <header>
+    <div>
+      <div class="brand">ACCOUNT DIAGNOSTIC · 账号诊断</div>
+      <h1>北京陪拍·<span>示例号</span></h1>
+    </div>
+    <div class="meta">
+      平台 <b>抖音</b><br>
+      诊断日期 <b>2026-10-24</b><br>
+      数据截止 <b>2026-10-23</b><br>
+      可信度 <b>高</b>（截图 + 9 条视频后台数据齐）
+    </div>
+  </header>
+
+  <div class="verdict">
+    <div class="tag">一句话结论 · 只给一个问题</div>
+    <p>这个号最大的问题：<em>前 3 秒在放片头和自我介绍</em>，完播率被挡在 44%。</p>
+    <div class="sub">反例证据：看完的人互动率 75%，说明内容本身有用——<b>人不是觉得内容差才走的，是被开头劝退的</b>。修入口，不修内容。</div>
+  </div>
+
+  <div class="block">
+    <h2>评分总表<span class="hint">六个模块分别是什么，见下方释义</span></h2>
+    <div class="total">
+      <div class="num">61<small>/100</small></div>
+      <div class="grade">C</div>
+      <div class="desc">结构性问题 · 先集中修前 3 秒与完播结构，内容暂缓放量<br>合规闸门：5 项全部通过，未命中一票否决</div>
+    </div>
+    <table>
+      <thead>
+        <tr><th style="width:26%">模块</th><th style="width:12%">得分</th><th style="width:46%">得分率</th><th style="width:16%">判定</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>M1 账号层</td><td>10 / 14</td><td><div class="bar"><i style="width:71%"></i></div><span style="font-size:12px;color:#7A7570">71%</span></td><td>尚可</td></tr>
+        <tr><td><b>M2 内容层</b></td><td><b>15 / 32</b></td><td><div class="bar"><i class="low" style="width:47%"></i></div><span style="font-size:12px;color:#C41230">47%</span></td><td><span class="flag">主要矛盾</span></td></tr>
+        <tr><td>M3 结构层</td><td>9 / 14</td><td><div class="bar"><i style="width:64%"></i></div><span style="font-size:12px;color:#7A7570">64%</span></td><td>偏低</td></tr>
+        <tr><td>M4 数据层</td><td>18 / 28</td><td><div class="bar"><i style="width:64%"></i></div><span style="font-size:12px;color:#7A7570">64%</span></td><td>偏低</td></tr>
+        <tr><td>M5 转化层</td><td>5 / 10</td><td><div class="bar"><i style="width:50%"></i></div><span style="font-size:12px;color:#7A7570">50%</span></td><td>偏低</td></tr>
+        <tr><td>M6 差异化</td><td>4 / 6</td><td><div class="bar"><i style="width:67%"></i></div><span style="font-size:12px;color:#7A7570">67%</span></td><td>尚可</td></tr>
+      </tbody>
+    </table>
+
+    <div class="mods">
+      <div class="mod">
+        <div class="mh"><b>M1</b><span class="mn">账号层</span><span class="ms">14 分 · 10</span></div>
+        <div class="md">
+          <div class="ln"><b>测什么：</b>头像、昵称、简介、主页九宫格这四样，合起来决定"一个人点进主页后 3 秒内会不会关注"。</div>
+          <div class="ln"><b>为什么只 14 分：</b>抖音靠推荐分发，多数人刷完就走、<u>根本不点主页</u>。这四项影响的是<b>关注率</b>，不影响播放量，所以权重低。</div>
+          <div class="ln"><b>最容易犯的错：</b>把小红书那套搬过来——简介写一大段自我介绍。抖音主页上没人读长文。</div>
+        </div>
+      </div>
+
+      <div class="mod key">
+        <div class="mh"><b>M2</b><span class="mn">内容层</span><span class="ms">32 分 · 15</span></div>
+        <div class="md">
+          <div class="ln"><b>测什么：</b>前 3 秒钩子、首帧与标题、价值类型、关键词与话题、结尾动作、实体物、完播结构——一条视频从"被划到"到"被看完"的全过程。</div>
+          <div class="ln"><b>为什么 32 分（最高）：</b>抖音的推荐池按"看完了吗"分层。<u>内容留不住人，后面所有数据都是零</u>。</div>
+          <div class="ln"><b>最容易犯的错：</b>把"我拍了什么"当内容，而不是"观众能得到什么"。</div>
+        </div>
+      </div>
+
+      <div class="mod">
+        <div class="mh"><b>M3</b><span class="mn">结构层</span><span class="ms">14 分 · 9</span></div>
+        <div class="md">
+          <div class="ln"><b>测什么：</b>选题分布、更新节奏、发布时段、栏目化与同质化——看的是账号整体的排布，不是单条视频。</div>
+          <div class="ln"><b>为什么 14 分：</b>它决定的是<b>长期</b>，不是单条。节奏乱、选题散，不会让你这条爆，但会让你一直起不来。</div>
+          <div class="ln"><b>最容易犯的错：</b>一周内发三种完全不同的题材，观众记不住你是做什么的。</div>
+        </div>
+      </div>
+
+      <div class="mod">
+        <div class="mh"><b>M4</b><span class="mn">数据层</span><span class="ms">28 分 · 18</span></div>
+        <div class="md">
+          <div class="ln"><b>测什么：</b>播放量、完播率、互动率、涨粉率。这里不是"看数据"，是<b>用数据检验 M2 的判断对不对</b>。</div>
+          <div class="ln"><b>为什么 28 分：</b>它是唯一能<b>推翻主观判断</b>的部分。我说"前 3 秒有问题"，必须靠 3 秒留存曲线验证，不能靠我说。</div>
+          <div class="ln"><b>最容易犯的错：</b>拿绝对值判断好坏（播放 1 万算好吗？）。正确做法是跟自己前 10 条的中位数比。</div>
+        </div>
+      </div>
+
+      <div class="mod">
+        <div class="mh"><b>M5</b><span class="mn">转化层</span><span class="ms">10 分 · 5</span></div>
+        <div class="md">
+          <div class="ln"><b>测什么：</b>主页承接、评论承接、咨询链路——看完视频的人，能不能走到"想约你"这一步。</div>
+          <div class="ln"><b>为什么只 10 分：</b>抖音站内转化路径短，且不允许站外引流，能动的位置只有主页和评论区，可操作空间有限。</div>
+          <div class="ln"><b>最容易犯的错：</b>视频里喊"私信我"——抖音同样禁止诱导私信留联系方式。</div>
+        </div>
+      </div>
+
+      <div class="mod">
+        <div class="mh"><b>M6</b><span class="mn">差异化</span><span class="ms">6 分 · 4</span></div>
+        <div class="md">
+          <div class="ln"><b>测什么：</b>差异点、同质度——同类账号一划而过时，凭什么记住你。</div>
+          <div class="ln"><b>为什么只 6 分：</b>长期加分项，不是短期生死线。但缺了它，你会一直停留在"看过的第 37 个拍天坛的人"。</div>
+          <div class="ln"><b>最容易犯的错：</b>把"我很用心"当差异点——那不是差异点，那是自我评价。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="note">
+      <b>抖音口径提示：</b>本表与小红书表<b>分值不同、不可互比</b>。抖音把 32 分压给内容层（前 3 秒 9 分 + 完播结构 5 分），28 分压给数据层（完播率单项 9 分）；账号层只占 14 分——因为抖音是推荐分发，主页权重低于小红书。<b>把两个平台的分数放在一起比较是无意义的。</b>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="two-col">
+      <div class="radar-wrap">
+        <h2>六模块雷达</h2>
+        <svg viewBox="0 0 280 250" width="100%" style="max-width:380px">
+          <polygon points="140,50 218,95 218,185 140,230 62,185 62,95" fill="none" stroke="#E4DED5" stroke-width="1"/>
+          <polygon points="140,65 198,106 198,174 140,215 82,174 82,106" fill="none" stroke="#E9E3D9" stroke-width="1"/>
+          <polygon points="140,95 179,118 179,163 140,185 101,163 101,118" fill="none" stroke="#E9E3D9" stroke-width="1"/>
+          <polygon points="140,118 160,129 160,151 140,163 120,151 120,129" fill="none" stroke="#E9E3D9" stroke-width="1"/>
+          <g stroke="#E9E3D9" stroke-width="1">
+            <line x1="140" y1="140" x2="140" y2="50"/>
+            <line x1="140" y1="140" x2="218" y2="95"/>
+            <line x1="140" y1="140" x2="218" y2="185"/>
+            <line x1="140" y1="140" x2="140" y2="230"/>
+            <line x1="140" y1="140" x2="62" y2="185"/>
+            <line x1="140" y1="140" x2="62" y2="95"/>
+          </g>
+          <polygon points="140,75.7 176.6,118.9 190.2,168.9 140,197.9 101,162.5 88,110"
+                   fill="rgba(196,18,48,.16)" stroke="#C41230" stroke-width="2.2" stroke-linejoin="round"/>
+          <g fill="#C41230">
+            <circle cx="140" cy="75.7" r="3.6"/>
+            <circle cx="176.6" cy="118.9" r="3.6"/>
+            <circle cx="190.2" cy="168.9" r="3.6"/>
+            <circle cx="140" cy="197.9" r="3.6"/>
+            <circle cx="101" cy="162.5" r="3.6"/>
+            <circle cx="88" cy="110" r="3.6"/>
+          </g>
+          <text x="140" y="36" text-anchor="middle" font-size="11" fill="#7A7570" font-family="PingFang SC,Microsoft YaHei,sans-serif">M1</text>
+        </svg>
+        <div class="rlg">
+          <div><span class="sw"></span>M1 账号<b>71%</b></div>
+          <div><span class="sw"></span>M2 内容<b>47%</b></div>
+          <div><span class="sw"></span>M3 结构<b>64%</b></div>
+          <div><span class="sw"></span>M4 数据<b>64%</b></div>
+          <div><span class="sw"></span>M5 转化<b>50%</b></div>
+          <div><span class="sw"></span>M6 差异<b>67%</b></div>
+        </div>
+        <div class="cap">红色区块往 M2 方向凹陷，即主要矛盾所在。中心 = 0 分，外圈 = 100%</div>
+      </div>
+
+      <div>
+        <h2>漏斗现状（示例数据）</h2>
+        <div class="funnel-row">
+          <div class="layer">播放</div>
+          <div class="val">12,400</div>
+          <div class="track"><i style="width:100%"></i></div>
+          <div class="rate">—</div>
+          <div class="state">基准</div>
+        </div>
+        <div class="funnel-row break">
+          <div class="layer">完播</div>
+          <div class="val">5,456</div>
+          <div class="track"><i style="width:44%"></i></div>
+          <div class="rate">44.0%</div>
+          <div class="state">断点</div>
+        </div>
+        <div class="funnel-row">
+          <div class="layer">互动</div>
+          <div class="val">1,112</div>
+          <div class="track"><i style="width:20%"></i></div>
+          <div class="rate">20.4%</div>
+          <div class="state ok">正常</div>
+        </div>
+        <div class="funnel-row">
+          <div class="layer">关注</div>
+          <div class="val">312</div>
+          <div class="track"><i style="width:11%"></i></div>
+          <div class="rate">28.1%</div>
+          <div class="state ok">正常</div>
+        </div>
+        <div class="funnel-row">
+          <div class="layer">私信咨询</div>
+          <div class="val">4</div>
+          <div class="track"><i style="width:4%"></i></div>
+          <div class="rate">1.3%</div>
+          <div class="state">样本过小</div>
+        </div>
+        <div style="font-size:12px;color:#7A7570;margin-top:16px;line-height:1.8">
+          <b>断点定位：</b>完播率 <b style="color:#C41230">44%</b> 是整条链路流失最大的一环，且播放量放大时会被同步放大。<br>
+          <b>互动层拆分（示例）：</b>赞 890 / 评 76 / 转 146 / 藏 0 —— 抖音看<b>评论与转发</b>，收藏权重低。<br>
+          <b>怎么看这张图：</b>条长只表示层级递减，不代表真实量级比例；真实比例看右侧转化率数字。基准一律是<b>自身前 10 条中位数</b>，不引用行业均值。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="block">
+    <h2>问题清单<span class="hint">只动主要矛盾模块（M2 内容层）。其余模块只记录，本次不动手</h2></span>
+
+    <div class="issue">
+      <div class="pri">优先级 1 / 5 · 影响面最大</div>
+      <h3><b>01</b>前 3 秒是片头动画＋"大家好，我是…"，人在第 4 秒才听到正题</h3>
+
+      <div class="sec">
+        <div class="sk">证据<span class="src">〔有数据支撑〕来自 9 条视频首帧与 3 秒留存曲线</span></div>
+        <div class="sv">
+          <div class="kv"><div class="k2">位置</div><div>近 9 条里的 <u>7 条，第 0–3 秒</u>。剩下 2 条中，1 条无片头，1 条片头压到 1 秒。</div></div>
+          <div class="kv"><div class="k2">原文照抄</div><div>第 2 条：「大家好，我是阿良，今天带大家来地坛」<br>第 5 条：「欢迎来到我的频道，先点个关注」<br>第 8 条：「北京陪拍，找我拍就对了」</div></div>
+          <div class="kv"><div class="k2">画面</div><div>同一段 2.5 秒片头动画：logo 从左侧滑入 + 转场闪白，7 条里完全一致。</div></div>
+          <div class="kv"><div class="k2">为什么算问题</div><div>抖音推荐池按 3 秒留存分层。片头 + 自我介绍是<b>零信息段</b>——观众在这一刻得不到"这条跟我有什么关系"的答案，手指已经在往上划。这不是审美问题，是结构问题：<b>你把最贵的 3 秒，用来播了没人要的信息</b>。</div></div>
+          <div class="kv"><div class="k2">对照</div><div>第 4 条是唯一没上片头的一条（直接切成片），3 秒留存 <b>71%</b>，9 条里最高——这条已经是内部反证。</div></div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="sk">病因</div>
+        <div class="sv">
+          <div class="kv"><div class="k2">评分项</div><div>M2 第 5 项「前 3 秒钩子」<b>3 / 10</b></div></div>
+          <div class="kv"><div class="k2">扣分依据</div><div>本表口径分四档：片头/自我介绍且零有效信息 = 0 档；有信息但不是钩子（陈述型）= 3–4 档；3 秒内给出结果或冲突 = 7 档；3 秒内钩子 + 前 5 秒兑现 = 10 档。当前属"有信息但不对胃口"，落 3 分。</div></div>
+          <div class="kv"><div class="k2">连带影响</div><div>完播率被压到 44%（M4 第 2 项只得 4/9）；而<b>看完的人互动率 75%</b>，说明中后段内容没问题——<u>流失全部发生在开头</u>。</div></div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="sk">改法</div>
+        <div class="sv">
+          <ol class="steps">
+            <li>删掉片头。要保留品牌感，只留 0.5 秒静态 logo 角标，<b>不做滑入、不做闪白</b>。</li>
+            <li>第 1 帧直接用"本片最好的一张成片"，全屏，不做任何转场。</li>
+            <li>第 1 句话改成"结果 + 地点 + 时间"的承诺句，不要自我介绍。</li>
+            <li>第 3 秒内必须出现"这条给你的东西"——机位 / 价格 / 姿势 / 避坑，四选一，明确说出来。</li>
+            <li>自我介绍要么删，要么压到 15 秒后一句带过（"我是阿良，专拍北京"）。</li>
+          </ol>
+          <div class="demo">
+            <div class="lab">第一句口播 · 前后对照</div>
+            <div class="bad">✗ 大家好，我是北京陪拍摄影师阿良，今天带大家看看地坛</div>
+            <div class="good">✓ 地坛这排银杏，早上 8 点前基本没人——这个位置在第 6 秒</div>
+          </div>
+        </div>
+        <div class="diff"><b>难度：低</b> —— 只重剪开头 3 秒。不用重拍、不用改选题、不用换设备。已发的 7 条不建议重剪，从下一条开始执行。</div>
+      </div>
+
+      <div class="sec">
+        <div class="sk">判据</div>
+        <div class="sv">
+          <div class="kv"><div class="k2">看哪个数</div><div>创作者中心 → 单条视频 → 播放分析 → <b>「3 秒完播率」</b>（部分版本显示为"3s 播放率"）</div></div>
+          <div class="kv"><div class="k2">什么时候看</div><div>改后连发 3 条，<b>第 7 天</b>取这 3 条的中位数，与改前 9 条中位数对比。24 小时数据差不做判断。</div></div>
+          <div class="kv"><div class="k2">算改对</div><div>3 秒完播率比改前中位数提升 <b>≥15 个百分点</b>，且总完播率 <b>≥55%</b>。</div></div>
+          <div class="kv"><div class="k2">没达标｜分三种走法</div><div>
+            ① <b>3 秒留存涨了、总完播没动</b> → 流失点后移到中段，转做第 02 张卡；<br>
+            ② <b>两者都没动</b> → 说明问题不在开头，<u>本条判断被证伪</u>，回来重判主要矛盾，不要在开头继续试；<br>
+            ③ <b>3 秒留存反而降</b> → 第 1 帧画面不够抓眼，换成片中最强的一张再试一次（只允许一次）。
+          </div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="issue">
+      <div class="pri">优先级 2 / 5</div>
+      <h3><b>02</b>中段拖沓：每 8 秒没有新信息点，观众在 15–25 秒集体掉出</h3>
+
+      <div class="sec">
+        <div class="sk">证据<span class="src">〔有数据支撑〕来自完播曲线</span></div>
+        <div class="sv">
+          <div class="kv"><div class="k2">位置</div><div>完播曲线 <u>15–25 秒段</u>，斜率最陡，是全片掉人最快的一段。</div></div>
+          <div class="kv"><div class="k2">内容</div><div>该段是 3 个连续空镜（走位花絮），无台词、无字幕、无新信息，合计 11 秒。</div></div>
+          <div class="kv"><div class="k2">数据</div><div>9 条平均完播 44%，但<b>前 15 秒留存 78%</b> —— 也就是掉的人里有近六成是在 15–25 秒这段走的。</div></div>
+          <div class="kv"><div class="k2">为什么算问题</div><div>抖音的完播判定是"看完"，不是"看了一半"。中段空转 11 秒，等于主动给观众一个划走的理由。</div></div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="sk">病因</div>
+        <div class="sv">
+          <div class="kv"><div class="k2">评分项</div><div>M2 第 11 项「完播结构」<b>1 / 6</b></div></div>
+          <div class="kv"><div class="k2">扣分依据</div><div>口径：前 10 秒后出现连续 ≥8 秒无信息增量 = 1 档；有信息但不成段落 = 3 档；每 5–8 秒一个信息点且收尾干净 = 6 档。</div></div>
+          <div class="kv"><div class="k2">连带影响</div><div>平均播放时长 19 秒 / 总时长 43 秒，比值 <b>0.44</b>，直接把 M4 完播率拖到 4/9。</div></div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="sk">改法</div>
+        <div class="sv">
+          <ol class="steps">
+            <li>整条压到 <b>35 秒以内</b>（现在平均 43 秒）。</li>
+            <li>每 5–8 秒必须有一个信息点：机位 / 时间 / 姿势 / 避坑，轮着来。</li>
+            <li>空镜要么删，要么配字幕变成"信息镜头"（例："这排树 8 点开始逆光，站这边"）。</li>
+            <li>重复走位只留一次，第二次直接切结果画面。</li>
+          </ol>
+        </div>
+        <div class="diff"><b>难度：中</b> —— 要重新粗剪，但素材不用重拍。建议先做 3 条试，不要一次改完全部风格。</div>
+      </div>
+
+      <div class="sec">
+        <div class="sk">判据</div>
+        <div class="sv">
+          <div class="kv"><div class="k2">看哪个数</div><div><b>平均播放时长 ÷ 视频总时长</b>。这个比值比完播率更早给出信号。</div></div>
+          <div class="kv"><div class="k2">什么时候看</div><div>改后 3 条，第 7 天。</div></div>
+          <div class="kv"><div class="k2">算改对</div><div>比值从 0.44 提到 <b>≥0.60</b>。</div></div>
+          <div class="kv"><div class="k2">没达标</div><div>压到 35 秒后完播反而降 → 剪太碎、信息链断了。回退到 45 秒版本，改成"删空镜 + 补字幕"，不要动骨架。</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="issue">
+      <div class="pri">优先级 3 / 5</div>
+      <h3><b>03</b>结尾没有引导，也没有"下一条看什么"</h3>
+
+      <div class="sec">
+        <div class="sk">证据<span class="src">〔有数据支撑〕来自 9 条成片</span></div>
+        <div class="sv">
+          <div class="kv"><div class="k2">位置</div><div>9 条的结尾 3–5 秒。</div></div>
+          <div class="kv"><div class="k2">原文/画面</div><div><u>6 条直接黑屏结束</u>，2 条停在一张静帧，1 条只说了"喜欢就关注"。</div></div>
+          <div class="kv"><div class="k2">为什么算问题</div><div>抖音的推荐权重里，<b>评论和转发高于收藏</b>。结尾是唯一能主动制造评论的位置，现在完全空着。</div></div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="sk">病因</div>
+        <div class="sv">
+          <div class="kv"><div class="k2">评分项</div><div>M2 第 9 项「结尾动作」<b>2 / 5</b></div></div>
+          <div class="kv"><div class="k2">扣分依据</div><div>口径：有具体可答的提问得 3 分，有下一条预期得 2 分。当前只有 1 条模糊的"喜欢就关注"（不计分），2 分来自偶发的口播感谢。</div></div>
+          <div class="kv"><div class="k2">连带影响</div><div>评论 76 / 12,400 播放 = <b>0.6%</b>，M4 互动率项只得 6/8。</div></div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="sk">改法</div>
+        <div class="sv">
+          <ol class="steps">
+            <li>固定两句结尾，写进模板，每条都念（不要即兴）。</li>
+            <li>提问必须"具体可答"——二选一或填数字，不要问"你们觉得呢"。</li>
+            <li>把已发的 9 条并进「北京机位」合集，让新观众能连着看。</li>
+          </ol>
+          <div class="demo">
+            <div class="lab">固定结尾模板</div>
+            <div class="good">提问：「你拍天坛是早上 7 点还是下午 4 点？评论区告诉我」</div>
+            <div class="good">预告：「下一条：地坛银杏 5 个机位，几点人最少」</div>
+          </div>
+        </div>
+        <div class="diff"><b>难度：低</b> —— 已发的只能补合集，后续每条加两句口播即可。</div>
+      </div>
+
+      <div class="sec">
+        <div class="sk">判据</div>
+        <div class="sv">
+          <div class="kv"><div class="k2">看哪个数</div><div>评论率（评论 ÷ 播放）、合集播放占比</div></div>
+          <div class="kv"><div class="k2">什么时候看</div><div>改后 4 条，第 7 天。</div></div>
+          <div class="kv"><div class="k2">算改对</div><div>评论率从 0.6% 提到 <b>≥1.5%</b>，且合集播放占比 <b>&gt;10%</b>。</div></div>
+          <div class="kv"><div class="k2">没达标</div><div>评论涨了但关注没涨 → 给了评论理由、没给关注理由。把预告那句改成"关注看下一条"再试。</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="issue">
+      <div class="pri">优先级 4 / 5</div>
+      <h3><b>04</b>首帧与标题都不含搜索词，只靠推荐碰运气</h3>
+
+      <div class="sec">
+        <div class="sk">证据<span class="src">〔有数据支撑〕来自 9 条封面帧与标题</span></div>
+        <div class="sv">
+          <div class="kv"><div class="k2">原文照抄</div><div>第 3 条标题「<u>这个角度绝了</u>」<br>第 8 条标题「<u>随手一拍</u>」<br>第 6 条标题「<u>记录一下</u>」——三条都没有"北京 / 天坛 / 陪拍"中的任何一个。</div></div>
+          <div class="kv"><div class="k2">画面</div><div>5 条首帧是纯天空或纯景物空镜，<b>无可读文字</b>。</div></div>
+          <div class="kv"><div class="k2">为什么算问题</div><div>抖音虽然以推荐为主，但搜索入口的量在涨，且搜索来的观众<b>购买意图更强</b>。首帧和标题都放弃搜索词，等于只押一条腿走路。</div></div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="sk">病因</div>
+        <div class="sv">
+          <div class="kv"><div class="k2">评分项</div><div>M2 第 6 项「首帧与标题」<b>3 / 5</b></div></div>
+          <div class="kv"><div class="k2">扣分依据</div><div>口径：首帧有关键画面 2 分、首帧有可读信息 2 分、标题含搜索词 1 分。当前有关键画面（2）、无可读信息（0）、标题无搜索词（0），另 1 分来自 2 条标题偶带地点。</div></div>
+          <div class="kv"><div class="k2">连带影响</div><div>搜索进入占比仅 <b>4%</b>，同时拉低 M3 关键词布设项。</div></div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="sk">改法</div>
+        <div class="sv">
+          <ol class="steps">
+            <li>首帧加一行可读字幕，<b>8 个字以内</b>，例：「天坛红墙 · 40 分钟出片」。</li>
+            <li>标题改成"地点 + 结果/数字"结构，见下方对照。</li>
+            <li>每条至少 1 个地点标签（#天坛拍照）+ 1 个意图词进文案（"多少钱""什么姿势"）。</li>
+          </ol>
+          <div class="demo">
+            <div class="lab">标题 · 前后对照</div>
+            <div class="bad">✗ 这个角度绝了</div>
+            <div class="good">✓ 北京天坛拍照，这个位置 8 点没人</div>
+          </div>
+        </div>
+        <div class="diff"><b>难度：低</b> —— 已发的只能改标题，新发按模板做。</div>
+      </div>
+
+      <div class="sec">
+        <div class="sk">判据</div>
+        <div class="sv">
+          <div class="kv"><div class="k2">看哪个数</div><div>搜索进入占比（创作者中心 → 流量来源）</div></div>
+          <div class="kv"><div class="k2">什么时候看</div><div>改后 4 条，第 7 天。</div></div>
+          <div class="kv"><div class="k2">算改对</div><div>搜索进入占比从 4% 提到 <b>≥8%</b>。</div></div>
+          <div class="kv"><div class="k2">没达标</div><div>4 条补完仍无变化 → 说明这个题材本身没有搜索需求。转去查选题分布（M3），<u>不要继续在关键词上耗时间</u>。</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="issue">
+      <div class="pri">优先级 5 / 5</div>
+      <h3><b>05</b>话题标签只有两个泛词，缺地点词与意图词</h3>
+
+      <div class="sec">
+        <div class="sk">证据<span class="src">〔有数据支撑〕来自 9 条标签栏</span></div>
+        <div class="sv">
+          <div class="kv"><div class="k2">原文照抄</div><div><u>8 条只带 #北京 #摄影</u>；#陪拍、#天坛 各出现 1 次；"多少钱""姿势"一次都没出现，字幕里也没有。</div></div>
+          <div class="kv"><div class="k2">为什么算问题</div><div>抖音的话题既是分类信号也是搜索入口。两个泛词只能把你归进"摄影"这个千万级大池，<b>地点词和意图词才是能被搜到的那一层</b>。</div></div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="sk">病因</div>
+        <div class="sv">
+          <div class="kv"><div class="k2">评分项</div><div>M2 第 7 项「关键词与话题」<b>1 / 3</b></div></div>
+          <div class="kv"><div class="k2">扣分依据</div><div>口径：核心词、地点词、意图词三层齐 = 3 分，缺一层减 1 分。当前只有核心词层。</div></div>
+          <div class="kv"><div class="k2">连带影响</div><div>与第 04 项同源，二者合计影响 M2 的 4 分。</div></div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="sk">改法</div>
+        <div class="sv">
+          <ol class="steps">
+            <li>每条固定三层：#北京陪拍（核心）#天坛拍照（地点，每期换）#拍照姿势（意图）。</li>
+            <li>标签总数<b>不超过 5 个</b>——多了反而稀释。</li>
+            <li>口播里把核心词说一遍（"北京陪拍"），抖音会对语音做识别。</li>
+          </ol>
+        </div>
+        <div class="diff"><b>难度：低</b> —— 与第 04 项同批执行，不要单独改。</div>
+      </div>
+
+      <div class="sec">
+        <div class="sk">判据</div>
+        <div class="sv">
+          <div class="kv"><div class="k2">看哪个数</div><div>搜索进入占比、单条播放来源构成</div></div>
+          <div class="kv"><div class="k2">什么时候看</div><div>与第 04 项同批，第 7 天。</div></div>
+          <div class="kv"><div class="k2">算改对</div><div>与第 04 项合并看：两项一起改，搜索进入占比 <b>≥8%</b>。</div></div>
+          <div class="kv"><div class="k2">没达标</div><div>见第 04 项。不要单独在这一项上反复试——它和 04 是同一件事的两面。</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <div class="gap">
+      <h2>不建议做什么（本次不动）</h2>
+      <ul>
+        <li><b>先别投 DOU+</b>：完播率 44% 没过自身中位数，投流等于花钱放大流失。先把入口修好，再谈放量。</li>
+        <li><b>先别改选题、别换赛道</b>：完播的人互动率 75%，证明内容本身有效——<u>这是内容没问题的最强证据</u>，此时换选题等于扔掉已验证的部分。</li>
+        <li><b>先别加更、别日更</b>：M3 结构层 64% 尚可。入口问题没解决前高频发布，只会多几条低完播样本，拖累账号。</li>
+        <li><b>先别改简介和头像</b>：M1 账号层 71%，不是主要矛盾。抖音以推荐分发为主，主页权重低于小红书，现在改收益最小。</li>
+      </ul>
+    </div>
+
+    <div class="gap">
+      <h2>本报告可能错在哪（动手前先写好判据）</h2>
+      <ul>
+        <li><b>若改后 3 条，3 秒留存与完播率同时无变化</b> → 主要矛盾判断错误，问题不在内容层。回来重跑全套评分，不要在开头继续加码。</li>
+        <li><b>若改后数据变好但粉丝增长无变化</b> → 说明这个号不缺流量、缺转化。下一轮的主要矛盾应该换成 M5 转化层，而不是继续雕内容。</li>
+        <li><b>若改后数据全面下滑</b> → 改动幅度过大，老观众认不出是你的片子。回退到单点改动：只删片头，不动中段节奏。</li>
+        <li><b>若 7 天内数据没上来就急着改第二次</b> → 这是最常见的误判。抖音单条数据波动大，7 天、3 条起步才构成信号。</li>
+      </ul>
+    </div>
+
+    <div>
+      <h2>可信度声明</h2>
+      <ul>
+        <li><b>有数据支撑（可追证）</b>：M4 全部 4 项、M2 第 5/6/9 项 —— 来自 9 条视频后台截图与完播曲线。</li>
+        <li><b>〔经验〕推断</b>：M2 第 7/11 项、M3 全部、M5 全部 —— 依据评分卡口径判断，无 A/B 对照。</li>
+        <li><b>缺测</b>：0 项。若缺后台数据，M4 按「实得分 ÷ 已测项满分 × 28」折算，并注明"可信度降一级"。</li>
+        <li><b>未下结论的部分</b>：<u>未认定"被限流"</u>。播放 12,400 属自身正常区间，无违规通知、无断崖，不构成限流判断。若后续连续 3 条播放断崖，再按平台规则速查页的停发核查流程处理。</li>
+        <li><b>抖音高频误判提醒</b>：不用"收藏率高"表扬抖音号（收藏权重低）；不把"播放低"直接归因限流；不拿本表分数与小红书分数横向比较。</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

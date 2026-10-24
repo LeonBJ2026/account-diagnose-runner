@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>账号诊断报告 · 详细版样例（小红书）</title>
+<style>
+  :root{
+    --red:#C41230; --gold:#CAAA74; --ink:#2B2B2B; --muted:#7A7570;
+    --line:#E4DED5; --bg:#FAF8F5; --card:#FFFFFF; --warn:#B8860B;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:"PingFang SC","思源黑体","Microsoft YaHei",sans-serif;
+    background:var(--bg); color:var(--ink); line-height:1.7;
+    -webkit-print-color-adjust:exact; print-color-adjust:exact;
+  }
+  .page{width:1120px;margin:0 auto;padding:0 0 60px}
+
+  .demo-bar{
+    background:var(--warn); color:#fff; text-align:center;
+    font-size:13px; letter-spacing:.5px; padding:7px 0; font-weight:600;
+  }
+
+  header{
+    background:var(--card); border-bottom:3px solid var(--red);
+    padding:34px 48px 26px; display:flex; justify-content:space-between; align-items:flex-end;
+  }
+  .brand{font-size:13px; letter-spacing:3px; color:var(--gold); font-weight:700; margin-bottom:10px}
+  h1{font-size:32px; letter-spacing:-.5px; font-weight:700}
+  h1 span{color:var(--red)}
+  .meta{text-align:right; font-size:13px; color:var(--muted); line-height:2}
+  .meta b{color:var(--ink); font-weight:600}
+
+  .block{background:var(--card); padding:32px 48px; border-bottom:1px solid var(--line)}
+  .block h2{
+    font-size:15px; letter-spacing:2px; color:var(--red); font-weight:700;
+    margin-bottom:20px; padding-left:12px; border-left:3px solid var(--gold);
+  }
+  .block h2 .hint{font-size:12px; letter-spacing:0; color:var(--muted); font-weight:400; margin-left:8px}
+
+  .verdict{background:var(--red); color:#fff; padding:44px 48px}
+  .verdict .tag{font-size:13px; letter-spacing:4px; opacity:.8; margin-bottom:14px}
+  .verdict p{font-size:29px; font-weight:700; line-height:1.5; letter-spacing:-.3px}
+  .verdict p em{font-style:normal; color:#F5DEB0; border-bottom:3px solid #F5DEB0; padding-bottom:2px}
+  .verdict .sub{font-size:14px; margin-top:16px; opacity:.85; font-weight:400; line-height:1.8}
+
+  .total{display:flex; align-items:center; gap:40px; margin-bottom:26px}
+  .total .num{font-size:64px; font-weight:800; color:var(--red); line-height:1}
+  .total .num small{font-size:20px; color:var(--muted); font-weight:600}
+  .total .grade{background:var(--red); color:#fff; font-size:26px; font-weight:800; padding:6px 22px; border-radius:4px}
+  .total .desc{font-size:14px; color:var(--muted); flex:1}
+  table{width:100%; border-collapse:collapse; font-size:14px}
+  th{background:#F3EFE8; text-align:left; padding:11px 14px; font-weight:600; color:#5C554C; border-bottom:2px solid var(--line)}
+  td{padding:11px 14px; border-bottom:1px solid var(--line)}
+  .bar{height:8px; background:#EDE7DD; border-radius:4px; overflow:hidden; min-width:140px}
+  .bar i{display:block; height:100%; background:var(--gold); border-radius:4px}
+  .bar i.low{background:var(--red)}
+  .flag{color:var(--red); font-weight:700; font-size:12px}
+
+  /* 六模块释义 */
+  .mods{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:26px}
+  .mod{border:1px solid var(--line); background:#FFFDFA; padding:16px 18px}
+  .mod.key{border-left:3px solid var(--red)}
+  .mod .mh{display:flex; align-items:baseline; gap:8px; margin-bottom:9px; flex-wrap:wrap}
+  .mod .mh b{color:var(--red); font-size:15px}
+  .mod .mh .mn{font-size:13px; font-weight:700}
+  .mod .mh .ms{font-size:12px; color:var(--muted); margin-left:auto; font-variant-numeric:tabular-nums}
+  .mod .md{font-size:12.5px; color:#5C554C; line-height:1.75}
+  .mod .md b{color:var(--ink)}
+  .mod .md .ln{margin-bottom:6px}
+  .mod .md .ln:last-child{margin-bottom:0}
+  .mod .md u{text-decoration:none; border-bottom:1px dotted #BFB4A2}
+
+  .two-col{display:grid; grid-template-columns:420px 1fr; gap:48px; align-items:start}
+  .radar-wrap{text-align:center}
+  .radar-wrap .cap{font-size:12px; color:var(--muted); margin-top:8px}
+  .rlg{display:grid; grid-template-columns:repeat(3,1fr); gap:7px 12px; margin-top:14px; font-size:12px; text-align:left}
+  .rlg div{display:flex; align-items:center; gap:6px; color:#5C554C}
+  .rlg .sw{width:8px; height:8px; border-radius:2px; background:var(--red); flex:0 0 8px}
+  .rlg b{color:var(--red); margin-left:auto; font-variant-numeric:tabular-nums}
+
+  .funnel-row{
+    display:grid; grid-template-columns:80px 96px 1fr 96px 82px;
+    align-items:center; gap:14px; padding:13px 0; border-bottom:1px dashed var(--line);
+  }
+  .funnel-row:last-child{border-bottom:none}
+  .funnel-row .layer{font-size:14px; font-weight:600}
+  .funnel-row .val{font-size:20px; font-weight:700; text-align:right; font-variant-numeric:tabular-nums}
+  .funnel-row .track{height:9px; background:#EDE7DD; border-radius:5px; overflow:hidden}
+  .funnel-row .track i{display:block; height:100%; background:var(--gold); border-radius:5px}
+  .funnel-row.break .track i{background:var(--red)}
+  .funnel-row .rate{font-size:13px; color:var(--muted); text-align:right; font-variant-numeric:tabular-nums}
+  .funnel-row .state{font-size:11px; text-align:center; padding:3px 0; border-radius:3px; background:#F1EDE6; color:var(--muted); font-weight:600}
+  .funnel-row.break .state{background:var(--red); color:#fff}
+  .funnel-row .state.ok{background:#EAF3EA; color:#3C7A44}
+
+  /* 问题卡详版 */
+  .issue{
+    border:1px solid var(--line); border-left:4px solid var(--red);
+    padding:22px 26px; margin-bottom:20px; background:#FFFDFA;
+  }
+  .issue h3{font-size:16px; font-weight:700; margin-bottom:6px; line-height:1.5}
+  .issue h3 b{color:var(--red); margin-right:8px}
+  .issue .pri{font-size:11px; color:var(--muted); letter-spacing:1px; margin-bottom:4px}
+  .sec{margin-top:16px; padding-top:15px; border-top:1px dashed var(--line)}
+  .sk{font-size:12px; letter-spacing:2px; color:var(--red); font-weight:700; margin-bottom:9px}
+  .sk .src{font-weight:400; letter-spacing:0; color:var(--muted); font-size:11px; margin-left:8px}
+  .sv{font-size:13.5px; line-height:1.85}
+  .sv .kv{display:grid; grid-template-columns:82px 1fr; gap:10px; margin-bottom:7px}
+  .sv .kv .k2{color:var(--muted); font-size:12px; padding-top:2px}
+  .sv u{text-decoration:none; background:#FBEBEA; padding:1px 5px; border-radius:2px; color:#8B1226; font-weight:600}
+  .steps{margin:6px 0 10px 20px; font-size:13.5px; line-height:1.85}
+  .steps li{margin-bottom:6px}
+  .demo{margin:10px 0 6px; padding:12px 16px; background:#F7F3EC; font-size:13px; line-height:1.85}
+  .demo .lab{font-size:11px; letter-spacing:1px; color:var(--muted); margin-bottom:4px}
+  .demo .bad{color:#8B1226}
+  .demo .good{color:#2F6B3A; font-weight:600}
+  .diff{font-size:12px; color:var(--muted); margin-top:8px; padding-top:8px; border-top:1px dotted var(--line)}
+
+  .foot{background:#F3EFE8; padding:30px 48px; font-size:13px; color:#5C554C; line-height:1.9}
+  .foot h2{font-size:14px; letter-spacing:2px; color:var(--red); margin-bottom:14px}
+  .foot .gap{margin-bottom:22px}
+  .foot ul{list-style:none}
+  .foot li{padding-left:18px; position:relative; margin-bottom:4px}
+  .foot li::before{content:"—"; position:absolute; left:0; color:var(--gold); font-weight:700}
+
+  .note{
+    background:#FBF3E4; border-left:3px solid var(--gold); padding:14px 18px;
+    font-size:13px; color:#6B5B3E; margin-top:20px; line-height:1.8;
+  }
+
+  @media print{
+    body{background:#fff}
+    .page{width:auto}
+    @page{size:A4 landscape; margin:10mm}
+    .block,.verdict,header,.foot,.issue{page-break-inside:avoid}
+    .demo-bar{background:#999}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="demo-bar">样例报告 · 数据均为虚构示例，非真实账号诊断 · 仅用于查看版式与结构</div>
+
+  <header>
+    <div>
+      <div class="brand">ACCOUNT DIAGNOSTIC · 账号诊断</div>
+      <h1>北京陪拍·<span>示例号</span></h1>
+    </div>
+    <div class="meta">
+      平台 <b>小红书</b><br>
+      诊断日期 <b>2026-10-24</b><br>
+      数据截止 <b>2026-10-23</b><br>
+      可信度 <b>高</b>（截图 + 9 篇笔记后台数据齐）
+    </div>
+  </header>
+
+  <div class="verdict">
+    <div class="tag">一句话结论 · 只给一个问题</div>
+    <p>这个号最大的问题：<em>封面文字全压在底部</em>，在小红书信息流里被标题栏盖住，点击率只有 4.1%。</p>
+    <div class="sub">反例证据：进来的人收藏率 5.7%、收藏 9 高于评论 4，说明内容本身是"以后要用"的实用型——<b>问题不在内容价值，在信息流里那一眼没人点进来</b>。修封面，不修选题。</div>
+  </div>
+
+  <div class="block">
+    <h2>评分总表<span class="hint">六个模块分别是什么，见下方释义</span></h2>
+    <div class="total">
+      <div class="num">60<small>/100</small></div>
+      <div class="grade">C</div>
+      <div class="desc">结构性问题 · 先集中修封面与标题，内容暂缓放量<br>合规闸门：5 项全部通过，未命中一票否决</div>
+    </div>
+    <table>
+      <thead>
+        <tr><th style="width:26%">模块</th><th style="width:12%">得分</th><th style="width:46%">得分率</th><th style="width:16%">判定</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>M1 账号层</td><td>12 / 16</td><td><div class="bar"><i style="width:75%"></i></div><span style="font-size:12px;color:#7A7570">75%</span></td><td>尚可</td></tr>
+        <tr><td><b>M2 内容层</b></td><td><b>13 / 30</b></td><td><div class="bar"><i class="low" style="width:43%"></i></div><span style="font-size:12px;color:#C41230">43%</span></td><td><span class="flag">主要矛盾</span></td></tr>
+        <tr><td>M3 结构层</td><td>10 / 14</td><td><div class="bar"><i style="width:71%"></i></div><span style="font-size:12px;color:#7A7570">71%</span></td><td>尚可</td></tr>
+        <tr><td>M4 数据层</td><td>15 / 22</td><td><div class="bar"><i style="width:68%"></i></div><span style="font-size:12px;color:#7A7570">68%</span></td><td>偏低</td></tr>
+        <tr><td>M5 转化层</td><td>6 / 12</td><td><div class="bar"><i style="width:50%"></i></div><span style="font-size:12px;color:#7A7570">50%</span></td><td>偏低</td></tr>
+        <tr><td>M6 差异化</td><td>4 / 6</td><td><div class="bar"><i style="width:67%"></i></div><span style="font-size:12px;color:#7A7570">67%</span></td><td>尚可</td></tr>
+      </tbody>
+    </table>
+
+    <div class="mods">
+      <div class="mod">
+        <div class="mh"><b>M1</b><span class="mn">账号层</span><span class="ms">16 分 · 12</span></div>
+        <div class="md">
+          <div class="ln"><b>测什么：</b>昵称、头像、简介四要素（在哪 / 拍什么 / 客片 / 怎么约）、九宫格统一度。</div>
+          <div class="ln"><b>为什么 16 分：</b>小红书用户会主动点进主页——搜索进来的人尤其会先看主页再决定关不关注。<u>主页是第二次点击的主战场</u>，权重高于抖音。</div>
+          <div class="ln"><b>最容易犯的错：</b>九宫格风格不统一，红墙一组、银杏一组、夜景一组，看不出这是个摄影号。</div>
+        </div>
+      </div>
+
+      <div class="mod key">
+        <div class="mh"><b>M2</b><span class="mn">内容层</span><span class="ms">30 分 · 13</span></div>
+        <div class="md">
+          <div class="ln"><b>测什么：</b>标题前 8 字、封面可读、开头钩子、价值类型、关键词三层、结尾动作、实体物。</div>
+          <div class="ln"><b>为什么 30 分（最高）：</b>生死线是信息流里那一眼。<u>封面和标题决定点击率，点击率上不来，后面什么都没有</u>。</div>
+          <div class="ln"><b>最容易犯的错：</b>封面文字压在底部，被信息流标题盖住——等于白做封面。</div>
+        </div>
+      </div>
+
+      <div class="mod">
+        <div class="mh"><b>M3</b><span class="mn">结构层</span><span class="ms">14 分 · 10</span></div>
+        <div class="md">
+          <div class="ln"><b>测什么：</b>选题分布、更新节奏、发布时段、栏目化与同质化——看账号整体排布，不是单篇。</div>
+          <div class="ln"><b>为什么 14 分：</b>小红书吃长期搜索。栏目化和关键词占位，决定<u>第 30 条之后能不能起来</u>。</div>
+          <div class="ln"><b>最容易犯的错：</b>每条都在追热点，没有可累积的搜索位——130 条之后还是从零开始。</div>
+        </div>
+      </div>
+
+      <div class="mod">
+        <div class="mh"><b>M4</b><span class="mn">数据层</span><span class="ms">22 分 · 15</span></div>
+        <div class="md">
+          <div class="ln"><b>测什么：</b>曝光、点击率、互动率、涨粉率。不是"看数据"，是<b>用数据检验 M2 的判断对不对</b>。</div>
+          <div class="ln"><b>为什么 22 分：</b>唯一能<b>推翻主观判断</b>的部分。说"封面有问题"，必须靠点击率验证，不能靠我说。</div>
+          <div class="ln"><b>最容易犯的错：</b>只看点赞数。<u>点赞数受推荐量影响，点击率才是封面好坏的尺子</u>。</div>
+        </div>
+      </div>
+
+      <div class="mod">
+        <div class="mh"><b>M5</b><span class="mn">转化层</span><span class="ms">12 分 · 6</span></div>
+        <div class="md">
+          <div class="ln"><b>测什么：</b>主页承接、评论承接、咨询链路——点进来的人能不能走到"想约你"。</div>
+          <div class="ln"><b>为什么 12 分：</b>不能站外引流，站内链路只有<b>收藏 + 评论置顶 + 被动私信</b>三条，可操作空间有限。</div>
+          <div class="ln"><b>最容易犯的错：</b>简介写"私信我"——直接踩导流红线。</div>
+        </div>
+      </div>
+
+      <div class="mod">
+        <div class="mh"><b>M6</b><span class="mn">差异化</span><span class="ms">6 分 · 4</span></div>
+        <div class="md">
+          <div class="ln"><b>测什么：</b>差异点、同质度——同类账号一划而过时，凭什么记住你。</div>
+          <div class="ln"><b>为什么只 6 分：</b>长期加分项。但小红书同类摄影号极多，<u>无差异点等于可替代</u>。</div>
+          <div class="ln"><b>最容易犯的错：</b>把"我拍得好看"当差异点——好看是入场券，不是差异。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="note">
+      <b>小红书口径提示：</b>本表与抖音表<b>分值不同、不可互比</b>。小红书把 16 分给账号层（主页是第二次点击的主战场）、30 分给内容层（封面与标题决定点击率）、22 分给数据层（点击率单项 7 分）；抖音则是内容 32、账号层只 14。<b>把两个平台的分数放在一起比较是无意义的。</b>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="two-col">
+      <div class="radar-wrap">
+        <h2>六模块雷达</h2>
+        <svg viewBox="0 0 280 250" width="100%" style="max-width:380px">
+          <polygon points="140,50 218,95 218,185 140,230 62,185 62,95" fill="none" stroke="#E4DED5" stroke-width="1"/>
+          <polygon points="140,65 198,106 198,174 140,215 82,174 82,106" fill="none" stroke="#E9E3D9" stroke-width="1"/>
+          <polygon points="140,95 179,118 179,163 140,185 101,163 101,118" fill="none" stroke="#E9E3D9" stroke-width="1"/>
+          <polygon points="140,118 160,129 160,151 140,163 120,151 120,129" fill="none" stroke="#E9E3D9" stroke-width="1"/>
+          <g stroke="#E9E3D9" stroke-width="1">
+            <line x1="140" y1="140" x2="140" y2="50"/>
+            <line x1="140" y1="140" x2="218" y2="95"/>
+            <line x1="140" y1="140" x2="218" y2="185"/>
+            <line x1="140" y1="140" x2="140" y2="230"/>
+            <line x1="140" y1="140" x2="62" y2="185"/>
+            <line x1="140" y1="140" x2="62" y2="95"/>
+          </g>
+          <polygon points="140,72.5 173.8,120.6 195.7,172.1 140,201.4 101,162.5 88,110"
+                   fill="rgba(196,18,48,.16)" stroke="#C41230" stroke-width="2.2" stroke-linejoin="round"/>
+          <g fill="#C41230">
+            <circle cx="140" cy="72.5" r="3.6"/>
+            <circle cx="173.8" cy="120.6" r="3.6"/>
+            <circle cx="195.7" cy="172.1" r="3.6"/>
+            <circle cx="140" cy="201.4" r="3.6"/>
+            <circle cx="101" cy="162.5" r="3.6"/>
+            <circle cx="88" cy="110" r="3.6"/>
+          </g>
+          <text x="140" y="36" text-anchor="middle" font-size="11" fill="#7A7570" font-family="PingFang SC,Microsoft YaHei,sans-serif">M1</text>
+        </svg>
+        <div class="rlg">
+          <div><span class="sw"></span>M1 账号<b>75%</b></div>
+          <div><span class="sw"></span>M2 内容<b>43%</b></div>
+          <div><span class="sw"></span>M3 结构<b>71%</b></div>
+          <div><span class="sw"></span>M4 数据<b>68%</b></div>
+          <div><span class="sw"></span>M5 转化<b>50%</b></div>
+          <div><span class="sw"></span>M6 差异<b>67%</b></div>
+        </div>
+        <div class="cap">红色区块往 M2 方向凹陷，即主要矛盾所在。中心 = 0 分，外圈 = 100%</div>
+      </div>
+
+      <div>
+        <h2>漏斗现状（示例数据）</h2>
+        <div class="funnel-row">
+          <div class="layer">曝光</div>
+          <div class="val">8,200</div>
+          <div class="track"><i style="width:100%"></i></div>
+          <div class="rate">—</div>
+          <div class="state">基准</div>
+        </div>
+        <div class="funnel-row break">
+          <div class="layer">点击</div>
+          <div class="val">336</div>
+          <div class="track"><i style="width:41%"></i></div>
+          <div class="rate">4.1%</div>
+          <div class="state">断点</div>
+        </div>
+        <div class="funnel-row">
+          <div class="layer">互动</div>
+          <div class="val">28</div>
+          <div class="track"><i style="width:34%"></i></div>
+          <div class="rate">8.3%</div>
+          <div class="state ok">正常</div>
+        </div>
+        <div class="funnel-row">
+          <div class="layer">关注</div>
+          <div class="val">12</div>
+          <div class="track"><i style="width:43%"></i></div>
+          <div class="rate">42.9%</div>
+          <div class="state ok">正常</div>
+        </div>
+        <div class="funnel-row">
+          <div class="layer">咨询</div>
+          <div class="val">1</div>
+          <div class="track"><i style="width:5%"></i></div>
+          <div class="rate">—</div>
+          <div class="state">样本过小</div>
+        </div>
+        <div style="font-size:12px;color:#7A7570;margin-top:16px;line-height:1.8">
+          <b>断点定位：</b>点击率 <b style="color:#C41230">4.1%</b> 是整条链路流失最大的一环——曝光 8,200 里 <b>96% 的人没点进来</b>，后面各层再正常也放大不了。<br>
+          <b>互动层拆分（示例）：</b>赞 14 / 藏 9 / 评 4 / 转 1 —— 小红书<b>收藏权重高</b>，收藏 9 高于评论 4，是"内容有用"的正向信号。<br>
+          <b>怎么看这张图：</b>条长只表示层级递减，不代表真实量级比例；真实比例看右侧转化率数字。基准一律是<b>自身前 10 篇中位数</b>（点击率 7.2%），不引用行业均值。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="block">
+    <h2>问题清单<span class="hint">只动主要矛盾模块（M2 内容层）。其余模块只记录，本次不动手</span></h2>
+
+    <div class="issue">
+      <div class="pri">优先级 1 / 5 · 影响面最大</div>
+      <h3><b>01</b>封面文字全压在底部三分之一，被信息流标题栏盖住</h3>
+
+      <div class="sec">
+        <div class="sk">证据<span class="src">〔有数据支撑〕来自 9 篇笔记首图 + 点击率数据</span></div>
+        <div class="sv">
+          <div class="kv"><div class="k2">位置</div><div>近 9 篇笔记的封面（首图），<u>7 篇存在同一问题</u>。其余 2 篇中，1 篇文字在上半部，1 篇无文字。</div></div>
+          <div class="kv"><div class="k2">原文照抄</div><div>封面上三行字：「北京陪拍」/「天坛红墙」/「40 分钟出片」——<b>全部位于画面下方 1/3 区域</b>。</div></div>
+          <div class="kv"><div class="k2">画面</div><div>主体人物在画面中上部，文字压在最底部，底部约 18% 区域被信息流标题栏覆盖。</div></div>
+          <div class="kv"><div class="k2">为什么算问题</div><div>小红书信息流里，封面底部 15–20% 会被平台标题栏盖住。文字放那儿，等于<b>三个最重要的信息（品类、地点、卖点）全部被吃掉</b>，用户只看到半张图——他不知道这是什么、在哪、值不值得点。</div></div>
+          <div class="kv"><div class="k2">对照</div><div>第 6 篇「地坛银杏」把字放到上半部，点击率 <b>9.8%</b>，9 篇最高——这条已经是内部反证。</div></div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="sk">病因</div>
+        <div class="sv">
+          <div class="kv"><div class="k2">评分项</div><div>M2 第 2 项「封面可读」<b>2 / 6</b></div></div>
+          <div class="kv"><div class="k2">扣分依据</div><div>本表口径分四档：无字或文字被遮挡 = 1–2 档；有字但需凑近看 = 3 档；3 行内且主体在上半部 = 5 档；3 行内 + 主体上半部 + 下方留安全区 + 与标题不重复 = 6 档。当前文字被遮挡，落 2 分。</div></div>
+          <div class="kv"><div class="k2">连带影响</div><div>点击率 4.1%（M4 第 2 项只得 <b>2 / 7</b>），曝光 8,200 里 <b>96% 的人没进来</b>——这一项吃掉的风险最大。</div></div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="sk">改法</div>
+        <div class="sv">
+          <ol class="steps">
+            <li>封面文字<b>全部上移到上半部</b>，最多 3 行，每行 ≤8 字。</li>
+            <li>底部留 <b>15–20% 安全区</b>，不放任何文字或关键元素。</li>
+            <li>主体（人 / 景）压在上 2/3，下 1/3 交给背景虚化。</li>
+            <li>封面文字与标题<b>不重复</b>——标题说"天坛红墙 40 分钟"，封面就写"这个机位 8 点没人"。</li>
+          </ol>
+          <div class="demo">
+            <div class="lab">封面文字 · 前后对照</div>
+            <div class="bad">✗ 底部三行：北京陪拍 / 天坛红墙 / 40 分钟出片</div>
+            <div class="good">✓ 上半部两行：天坛红墙 · 8 点没人 / 第 3 张是机位</div>
+          </div>
+        </div>
+        <div class="diff"><b>难度：低</b> —— 已发的 9 篇只能换首图重发（注意：改稿用隐藏重发，不批量删）；新发按模板做。</div>
+      </div>
+
+      <div class="sec">
+        <div class="sk">判据</div>
+        <div class="sv">
+          <div class="kv"><div class="k2">看哪个数</div><div>笔记数据 → <b>点击率 = 阅读量 ÷ 曝光量</b>（后台"数据分析 → 笔记分析"可直接看）</div></div>
+          <div class="kv"><div class="k2">什么时候看</div><div>改后连发 3 篇，<b>第 7 天</b>取这 3 篇的中位数，与改前 9 篇中位数（7.2%）对比。24 小时数据差不做判断。</div></div>
+          <div class="kv"><div class="k2">算改对</div><div>点击率从 4.1% 提到 <b>≥8%</b>（先过自身 7.2% 的中位线，再谈接近 8%）。</div></div>
+          <div class="kv"><div class="k2">没达标｜分三种走法</div><div>
+            ① <b>点击率涨了、互动没涨</b> → 封面吸引来的人不对版，封面承诺与内容不符。回退成"只改标题、封面保持"，不要两头一起改；<br>
+            ② <b>完全没动</b> → 换成有人的图（真人出镜的客片封面），只允许试一次；<br>
+            ③ <b>反而降了</b> → 文字太少、信息不足，补一行地点词再试。
+          </div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="issue">
+      <div class="pri">优先级 2 / 5</div>
+      <h3><b>02</b>标题前 8 个字没有"地点 + 动作/结果"，进了搜索也排不上</h3>
+
+      <div class="sec">
+        <div class="sk">证据<span class="src">〔有数据支撑〕来自 9 篇标题</span></div>
+        <div class="sv">
+          <div class="kv"><div class="k2">原文照抄</div><div>第 2 篇「<u>今天拍到了绝美的光</u>」<br>第 5 篇「<u>关于我在北京当摄影师这件事</u>」<br>第 8 篇「<u>秋天的第一组照片</u>」——三条前 8 字都没有地点词。</div></div>
+          <div class="kv"><div class="k2">为什么算问题</div><div>小红书标题上限约 20 字，信息流里只显示到<b>前 8–10 字</b>。前 8 字没地点，用户扫不到"这跟我有关"；同时搜索靠标题匹配，<u>前 8 字不带核心词等于放弃搜索入口</u>。</div></div>
+          <div class="kv"><div class="k2">对照</div><div>第 6 篇「地坛银杏 5 个机位几点人最少」前 8 字含地点 + 动作，点击率 9.8%、搜索进入占 <b>31%</b>。</div></div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="sk">病因</div>
+        <div class="sv">
+          <div class="kv"><div class="k2">评分项</div><div>M2 第 1 项「标题前 8 字」<b>2 / 6</b></div></div>
+          <div class="kv"><div class="k2">扣分依据</div><div>口径：前 8 字无地点无动作 = 1–2 档；有其一 = 3–4 档；"地点 + 动作/结果"齐全 = 5 档；齐全且带数字或疑问 = 6 档。当前有地点暗示但无动作，落 2 分。</div></div>
+          <div class="kv"><div class="k2">连带影响</div><div>搜索进入占比仅 <b>12%</b>，同时拉低 M3 关键词布设项。</div></div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="sk">改法</div>
+        <div class="sv">
+          <ol class="steps">
+            <li>标题前 8 字固定为<b>"地点 + 动作/结果"</b>。</li>
+            <li>优先塞数字（"5 个机位""40 分钟""8 点"）——数字比形容词更能让人判断值不值得点。</li>
+            <li>情绪词与第一人称往后挪（"我""绝美""关于…这件事"放后半段）。</li>
+          </ol>
+          <div class="demo">
+            <div class="lab">标题 · 前后对照</div>
+            <div class="bad">✗ 今天拍到了绝美的光</div>
+            <div class="good">✓ 天坛红墙 40 分钟拍完一组</div>
+          </div>
+        </div>
+        <div class="diff"><b>难度：低</b> —— 已发的可以直接改标题，不用重发。建议与第 01 项分开做（先改封面，7 天后再改标题）。</div>
+      </div>
+
+      <div class="sec">
+        <div class="sk">判据</div>
+        <div class="sv">
+          <div class="kv"><div class="k2">看哪个数</div><div>搜索进入占比（笔记数据 → 流量来源 → 搜索）</div></div>
+          <div class="kv"><div class="k2">什么时候看</div><div>改后 4 篇，第 7 天。</div></div>
+          <div class="kv"><div class="k2">算改对</div><div>搜索进入占比从 12% 提到 <b>≥25%</b>。</div></div>
+          <div class="kv"><div class="k2">没达标</div><div>改标题 4 篇后搜索占比不动 → 说明<u>这个题材本身没有搜索量</u>。转去查选题（M3），不要在标题上继续磨。</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="issue">
+      <div class="pri">优先级 3 / 5</div>
+      <h3><b>03</b>正文前三行是自我介绍，读者要滑到第四行才知道这篇能给什么</h3>
+
+      <div class="sec">
+        <div class="sk">证据<span class="src">〔有数据支撑〕来自 9 篇正文</span></div>
+        <div class="sv">
+          <div class="kv"><div class="k2">原文照抄</div><div>第 1 篇开头：「<u>大家好，我是阿良，在北京做陪拍三年了</u>」<br>第 4 篇：「<u>最近很多姐妹问我…</u>」<br>第 7 篇：「<u>今天想跟大家聊聊</u>」</div></div>
+          <div class="kv"><div class="k2">为什么算问题</div><div>小红书正文在信息流里<b>折叠前只露前 2–3 行</b>。这三行全是"我是谁""我想说"，没有一个字回答"这篇对我有什么用"。用户在这里划走，后面的干货再好也没人看到。</div></div>
+          <div class="kv"><div class="k2">对照</div><div>第 6 篇开头第一行就是「<b>地坛银杏 5 个机位，按人流从少到多排</b>」——直接给结论，完读率 52%，9 篇最高。</div></div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="sk">病因</div>
+        <div class="sv">
+          <div class="kv"><div class="k2">评分项</div><div>M2 第 3 项「开头钩子」<b>3 / 5</b> + 第 4 项「价值类型」<b>3 / 4</b></div></div>
+          <div class="kv"><div class="k2">扣分依据</div><div>钩子口径：前三行给结果/利益 = 5 档；给背景铺垫 = 3–4 档；给自我介绍 = 1–2 档。价值口径：实用/信息/情绪/决策至少占一种且明确 = 4 分，占但不明确 = 3 分。当前自我介绍开头、价值靠后文才显形，分别落 3 分。</div></div>
+          <div class="kv"><div class="k2">连带影响</div><div>完读率被压在 38%（9 篇中位数），收藏虽高但阅读量不够放大。</div></div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="sk">改法</div>
+        <div class="sv">
+          <ol class="steps">
+            <li>第 1 行直接给结论或清单（"5 个机位，按人流从少到多排"）。</li>
+            <li>自我介绍压到最后一段，或直接删。</li>
+            <li>前 3 行内必须出现核心词"北京陪拍"。</li>
+            <li>明确这篇属于哪类价值，写在开头：实用（机位/价格）／信息（新开场地）／情绪（客片故事）／决策（选哪个时段）。</li>
+          </ol>
+          <div class="demo">
+            <div class="lab">正文第一行 · 前后对照</div>
+            <div class="bad">✗ 大家好，我是阿良，在北京做陪拍三年了</div>
+            <div class="good">✓ 地坛银杏 5 个机位，按人流从少到多排——最后一个是本地人都在用的</div>
+          </div>
+        </div>
+        <div class="diff"><b>难度：低</b> —— 已发的可改正文（隐藏重发），新发按模板做。</div>
+      </div>
+
+      <div class="sec">
+        <div class="sk">判据</div>
+        <div class="sv">
+          <div class="kv"><div class="k2">看哪个数</div><div>完读率（笔记数据 → 阅读完成率）</div></div>
+          <div class="kv"><div class="k2">什么时候看</div><div>改后 3 篇，第 7 天。</div></div>
+          <div class="kv"><div class="k2">算改对</div><div>完读率从 38% 提到 <b>≥45%</b>。</div></div>
+          <div class="kv"><div class="k2">没达标</div><div>完读率涨了但收藏没涨 → 清单不够具体，补数字和"第几张图"再试；完读率完全没动 → 说明这篇根本没有值得读完的内容，问题在选题（M3）不在开头。</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="issue">
+      <div class="pri">优先级 4 / 5</div>
+      <h3><b>04</b>正文只带 2 个泛标签，地点词与意图词一次都没出现</h3>
+
+      <div class="sec">
+        <div class="sk">证据<span class="src">〔有数据支撑〕来自 9 篇正文与话题栏</span></div>
+        <div class="sv">
+          <div class="kv"><div class="k2">原文照抄</div><div>9 篇里 <u>7 篇只带 #北京 #摄影</u>；#北京陪拍 出现 2 次；"多少钱""姿势""几点"在正文里出现 <b>0 次</b>，也没有小标题或问答段。</div></div>
+          <div class="kv"><div class="k2">为什么算问题</div><div>小红书是<b>搜索 + 推荐双入口</b>。核心词只决定你被归进"摄影"大类；<u>地点词（天坛拍照）和意图词（陪拍多少钱）才是长尾搜索真正会敲进去的词</u>，没有它们，搜索这条腿基本废着。</div></div>
+          <div class="kv"><div class="k2">对照</div><div>第 6 篇三层齐全（#北京陪拍 #地坛银杏 #拍照姿势），搜索进入占 31%。</div></div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="sk">病因</div>
+        <div class="sv">
+          <div class="kv"><div class="k2">评分项</div><div>M2 第 5 项「关键词三层」<b>1 / 3</b></div></div>
+          <div class="kv"><div class="k2">扣分依据</div><div>口径：核心词、地点词、意图词三层齐 = 3 分，缺一层减 1。当前只有核心词层。</div></div>
+          <div class="kv"><div class="k2">连带影响</div><div>搜索进入 12%，长尾完全没吃到；与第 02 项同源，二者合计影响 M2 的 4 分。</div></div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="sk">改法</div>
+        <div class="sv">
+          <ol class="steps">
+            <li>核心词进标题前 8 字 + 正文首段。</li>
+            <li>地点词每期换（天坛拍照 / 地坛银杏 / 前门胡同 / 亮马河夜景）。</li>
+            <li>意图词放进正文问答段，用真人口吻问一遍（"陪拍多少钱""几点光线最好"），不要只堆标签。</li>
+            <li>标签总数 ≤5 个，多了稀释。</li>
+          </ol>
+          <div class="demo">
+            <div class="lab">话题 · 前后对照</div>
+            <div class="bad">✗ #北京 #摄影</div>
+            <div class="good">✓ #北京陪拍 #天坛拍照 #拍照姿势</div>
+          </div>
+        </div>
+        <div class="diff"><b>难度：低</b> —— 与第 02 项同批执行，不要单独改。</div>
+      </div>
+
+      <div class="sec">
+        <div class="sk">判据</div>
+        <div class="sv">
+          <div class="kv"><div class="k2">看哪个数</div><div>搜索进入占比、单篇流量来源构成</div></div>
+          <div class="kv"><div class="k2">什么时候看</div><div>与第 02 项同批，第 7 天。</div></div>
+          <div class="kv"><div class="k2">算改对</div><div>与第 02 项合并看：两项一起改，搜索进入占比 <b>≥25%</b>。</div></div>
+          <div class="kv"><div class="k2">没达标</div><div>见第 02 项。不要单独在这一项上反复试——它和 02 是同一件事的两面。</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="issue">
+      <div class="pri">优先级 5 / 5</div>
+      <h3><b>05</b>结尾没有可答提问，也没有可转发的东西</h3>
+
+      <div class="sec">
+        <div class="sk">证据<span class="src">〔有数据支撑〕来自 9 篇结尾</span></div>
+        <div class="sv">
+          <div class="kv"><div class="k2">原文照抄</div><div>9 篇里 <u>8 篇结尾是"喜欢就点个赞吧"或直接结束</u>；只有第 6 篇问了"你们拍天坛都几点去"。</div></div>
+          <div class="kv"><div class="k2">为什么算问题</div><div>小红书权重 <b>关注 &gt; 评论/转发 &gt; 点赞/收藏</b>。结尾是唯一能主动制造评论的位置，现在空着；同时没有可转发实体物，<u>转发动机为零</u>。</div></div>
+          <div class="kv"><div class="k2">对照</div><div>第 6 篇结尾给了"机位清单（图 7 存下来）+ 下期预告"，评论 <b>11 条</b>，是 9 篇平均（4 条）的 2.7 倍。</div></div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="sk">病因</div>
+        <div class="sv">
+          <div class="kv"><div class="k2">评分项</div><div>M2 第 6 项「结尾动作」<b>1 / 3</b> + 第 7 项「实体物」<b>1 / 3</b></div></div>
+          <div class="kv"><div class="k2">扣分依据</div><div>结尾口径：有具体可答提问 + 关注理由 = 3 分，只有"点赞关注" = 1 分。实体物口径：有机位清单/路线表/时段表 = 3 分，无 = 1 分。当前两项都只拿到基础分。</div></div>
+          <div class="kv"><div class="k2">连带影响</div><div>评论 4 条/篇，互动率 8.3%（M4 第 3 项 5/6）。</div></div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="sk">改法</div>
+        <div class="sv">
+          <ol class="steps">
+            <li>结尾固定两段：<b>提问</b>（二选一或填数字）+ <b>关注理由</b>（栏目名 + 期数 + 下期预告）。</li>
+            <li>每篇给一个可转发的实体物：机位清单 / 路线表 / 时段表。</li>
+            <li>实体物做成第 7 张图（在 18 张上限内），正文写"图 7 存下来"。</li>
+          </ol>
+          <div class="demo">
+            <div class="lab">结尾模板</div>
+            <div class="bad">✗ 喜欢就点个赞吧，谢谢大家</div>
+            <div class="good">✓ 你拍天坛选早上 7 点还是下午 4 点？评论区告诉我</div>
+            <div class="good">✓ 机位清单在图 7，存下来能用；关注「北京机位·第 3 期」，下期地坛银杏</div>
+          </div>
+        </div>
+        <div class="diff"><b>难度：低</b> —— 已发的可补结尾（隐藏重发），新发按模板做。</div>
+      </div>
+
+      <div class="sec">
+        <div class="sk">判据</div>
+        <div class="sv">
+          <div class="kv"><div class="k2">看哪个数</div><div>评论数、收藏率、转发数</div></div>
+          <div class="kv"><div class="k2">什么时候看</div><div>改后 4 篇，第 7 天。</div></div>
+          <div class="kv"><div class="k2">算改对</div><div>评论从 4 条/篇提到 <b>≥8 条/篇</b>，且收藏率维持 <b>≥5%</b>（不要为了评论牺牲收藏）。</div></div>
+          <div class="kv"><div class="k2">没达标</div><div>评论涨了但关注没涨 → 给了评论理由、没给关注理由。把预告改成"关注看第 4 期"再试。</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <div class="gap">
+      <h2>不建议做什么（本次不动）</h2>
+      <ul>
+        <li><b>先别换选题、别改赛道</b>：收藏 9 高于评论 4、收藏率 5.7% —— 说明内容被当成"以后要用"的东西存下来了，这是<b>内容有用最硬的证据</b>。此时换选题等于扔掉已验证的部分。</li>
+        <li><b>先别投薯条、别买流量</b>：点击率 4.1% 没过自身中位数 7.2%，投流等于花钱把一个漏的漏斗放大。</li>
+        <li><b>先别日更</b>：M3 结构层 71% 尚可。封面问题没解决前高频发布，只会多几条低点击样本。</li>
+        <li><b>先别改头像和昵称</b>：M1 账号层 75%，不是主要矛盾。主页本身尚可，现在动它收益最小。</li>
+        <li><b>别一次改完五条</b>：先做第 01 项（封面），第 7 天看点击率。同时改五处，最后不知道哪处起作用。</li>
+      </ul>
+    </div>
+
+    <div class="gap">
+      <h2>本报告可能错在哪（动手前先写好判据）</h2>
+      <ul>
+        <li><b>若改后 3 篇，点击率与完读率同时无变化</b> → 主要矛盾判断错误，问题不在内容层。回来重跑全套评分，<u>不要在封面上继续加码</u>。</li>
+        <li><b>若点击率涨了但关注没涨</b> → 说明这个号不缺流量、缺承接。下一轮主要矛盾应该换成 M5 转化层，而不是继续雕封面。</li>
+        <li><b>若点击率涨了但咨询没涨</b> → 吸引来的是同行和看客，不是客户。要重判 M6 差异化，而不是继续优化封面。</li>
+        <li><b>若 7 天内没起来就急着改第二次</b> → 这是最常见的误判。小红书单篇数据波动大，7 天、3 篇起步才构成信号。</li>
+      </ul>
+    </div>
+
+    <div>
+      <h2>可信度声明</h2>
+      <ul>
+        <li><b>有数据支撑（可追证）</b>：M4 全部 4 项、M2 第 1/2 项 —— 来自 9 篇笔记后台截图与点击率数据。</li>
+        <li><b>〔经验〕推断</b>：M2 第 3/4/5/6/7 项、M3 全部、M5 全部 —— 依据评分卡口径判断，无 A/B 对照。</li>
+        <li><b>缺测</b>：0 项。若缺后台数据，M4 按「实得分 ÷ 已测项满分 × 22」折算，并注明"可信度降一级"。</li>
+        <li><b>未下结论的部分</b>：<u>未认定"被限流"</u>。曝光 8,200 属自身正常区间，无违规通知、无断崖，不构成限流判断。若后续连续 3 篇曝光断崖，再按平台规则速查页的停发核查流程处理。</li>
+        <li><b>小红书高频误判提醒</b>：不用"点赞数"判断封面好坏（要看点击率）；不把"曝光低"直接归因限流；不拿本表分数与抖音分数横向比较。</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,80 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "account profile（抓取落成，供 score_account.py 读取）",
+  "description": "抓不到的字段一律写 null 或省略，不要补 0、不要估算。null 会被脚本标成缺测。",
+  "type": "object",
+  "required": ["platform", "url", "captured_at", "profile"],
+  "properties": {
+    "platform": {"enum": ["xhs", "douyin"]},
+    "url": {"type": "string", "description": "抓取用的完整主页链接"},
+    "captured_at": {"type": "string", "description": "抓取日期 YYYY-MM-DD，报告必须标注"},
+    "profile": {
+      "type": "object",
+      "required": ["nickname"],
+      "properties": {
+        "nickname": {"type": "string"},
+        "xiaohongshu_id": {"type": ["string", "null"], "description": "小红书号 / 抖音号"},
+        "ip_location": {"type": ["string", "null"]},
+        "bio_lines": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "简介逐行原文，不概括不改写；空简介写空数组"
+        },
+        "tags": {"type": "array", "items": {"type": "string"}},
+        "following": {"type": ["integer", "null"]},
+        "followers": {"type": ["integer", "null"]},
+        "likes_collects": {"type": ["integer", "null"], "description": "获赞与收藏合计；页面显示万为单位时换算成整数并在报告注明"}
+      }
+    },
+    "notes": {
+      "type": "array",
+      "description": "主页网格前 10–12 条，按页面顺序",
+      "items": {
+        "type": "object",
+        "required": ["title"],
+        "properties": {
+          "title": {"type": "string", "description": "标题原文"},
+          "pinned": {"type": "boolean", "default": false},
+          "likes": {"type": ["integer", "null"], "description": "不显示点赞数写 null，不要补 0"},
+          "cover_text": {"type": ["string", "null"], "description": "首图上的文字，有就照抄"}
+        }
+      }
+    },
+    "manual": {
+      "type": "object",
+      "description": "脚本算不了的项，由 agent 看图后人工判分；填不了的省略该键（脚本自动标缺测）",
+      "additionalProperties": {"type": ["number", "null"]},
+      "properties": {
+        "2": {"description": "头像可信（满分 3）"},
+        "4": {"description": "主页九宫格统一（满分 4）"},
+        "6": {"description": "封面可读性（满分 6）"},
+        "7": {"description": "开头钩子（需正文）"},
+        "8": {"description": "价值类型（需正文）"},
+        "10": {"description": "结尾动作（需正文）"},
+        "11": {"description": "可转发实体物（需正文）"},
+        "13": {"description": "更新节奏（需发布时间）"},
+        "14": {"description": "发布时间分布（需发布时间）"},
+        "15": {"description": "栏目化与同质化"},
+        "21": {"description": "评论承接（需评论记录）"},
+        "22": {"description": "咨询链路（需私信记录）"},
+        "23": {"description": "一句话差异点"},
+        "24": {"description": "对标同质度（需 3 个对标号）"}
+      }
+    },
+    "backend": {
+      "type": "object",
+      "description": "后台数据，没有就整块省略；有则必须同时给 baseline（自身前 10 条中位数），否则脚本按缺测处理",
+      "properties": {
+        "impressions": {"type": ["number", "null"]},
+        "click_rate": {"type": ["number", "null"], "description": "小红书用"},
+        "completion_rate": {"type": ["number", "null"], "description": "抖音用，替代点击率"},
+        "interaction_rate": {"type": ["number", "null"]},
+        "follow_rate": {"type": ["number", "null"]},
+        "baseline": {
+          "type": "object",
+          "additionalProperties": {"type": ["number", "null"]}
+        }
+      }
+    }
+  }
+}
